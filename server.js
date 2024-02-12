@@ -17,10 +17,7 @@ import videoRouter from './route/videos.js'
 
 //using the routers
 app.use('/api/auth/',authRouter)
-
-
-
-
+app.use('/api/users/',userRouter)
 
 const startServer=async()=>{
     console.log("Inside Start Server")
