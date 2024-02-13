@@ -9,6 +9,7 @@ const updateUser=async(req,res)=>{
         //unauthorized access....
         return 
     }
+    
     const updatedUser=await User.findByIdAndUpdate(
         paramId,
         {
@@ -28,18 +29,24 @@ const deleteUser=async(req,res)=>{
 }
 const subscribeUser=async(req,res)=>{
     const paramId=req.params.id
-    
-    await User.findById(req.user.id,{
-        $push:{ subscribedUsers:paramId},
+    await User.findByIdAndUpdate(req.user.id,{
+        $push:{subscribedUsers:paramId}
     })
-    console.log(paramId,"here")
     await User.findByIdAndUpdate(paramId,{
         $inc:{subscribers:1}
     })
-    
     res.status(StatusCodes.OK).json({message:"Subscription Done"})
 }
-const unsubscribeUser=(req,res)=>{}
+const unsubscribeUser=async(req,res)=>{
+    const paramId=req.params.id
+    const user=await User.findByIdAndUpdate(req.user.id,{
+        $pull:{subscribedUsers:paramId}
+    })
+    await User.findByIdAndUpdate(paramId,{
+        $inc:{subscribers:-1}
+    })
+    res.status(StatusCodes.OK).json({message:"Unsubscription Done"})
+}
 const likeUser=(req,res)=>{}
 const dislikeUser=(req,res)=>{}
 

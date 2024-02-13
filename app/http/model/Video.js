@@ -66,6 +66,4 @@ VideoSchema.methods.getLikes=function(){
 VideoSchema.methods.getDislikes=function(){
     return this.dislikes
 }
-
-
 export default mongoose.model('Video',VideoSchema)
